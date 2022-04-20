@@ -97,9 +97,19 @@ generateBoard.addEventListener('click', () => {
     alert('Board inválido!');
     return;
   }
+
   const inputValue = parseInt(boardSize.value);
   pixelBoardCleaner();
-  if (inputValue > 0 && inputValue <= 50) {
-    pixelsAdd(pixelBoard, inputValue, inputValue);
+
+  if (inputValue < 5) {
+    pixelsAdd(pixelBoard, 5, 5);
+    return;
   }
+
+  if (inputValue > 50) {
+    pixelsAdd(pixelBoard, 50, 50);
+    return;
+  }
+
+  pixelsAdd(pixelBoard, inputValue, inputValue);
 });
