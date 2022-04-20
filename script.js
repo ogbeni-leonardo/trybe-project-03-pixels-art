@@ -45,3 +45,13 @@ const pixelsBoard = document.getElementById('pixel-board');
 
 // Adicionando pixels ao pixel-board
 pixelsAdd(pixelsBoard, 5, 5);
+
+// Quando uma cor da paleta for clicada ela será selecionada
+for (let color of colors) {
+  color.addEventListener('click', () => {
+    const selectedColor = document.querySelector('.selected');
+    selectedColor.classList.remove('selected');
+
+    color.classList.add('selected');
+  });
+}
