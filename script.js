@@ -3,13 +3,16 @@ const colors = document.getElementsByClassName('color');
 // Aplicando a cor principal da paleta de cores
 colors[0].style.backgroundColor = 'rgb(0 0 0)';
 
-let mainColor = colors[0].style.backgroundColor;
+// Esta função retorna a cor selecionada da paleta de cores
+function selectedColorPalette() {
+  return document.querySelector('.selected').style.backgroundColor;
+}
 
 // Gerador de cores aleatórias
 function colorGenerator() {
-  let redColor = parseInt(Math.random() * 255);
-  let greenColor = parseInt(Math.random() * 255);
-  let blueColor = parseInt(Math.random() * 255);
+  const redColor = parseInt(Math.random() * 255, 10);
+  const greenColor = parseInt(Math.random() * 255, 10);
+  const blueColor = parseInt(Math.random() * 255, 10);
 
   return `rgb(${redColor} ${greenColor} ${blueColor})`;
 }
@@ -27,21 +30,35 @@ function pixelGenerator(parent) {
   parent.appendChild(newPixel);
 }
 
+// Altera o tamanho o pixel-board proporcionalmente ao tamanho de blocos por linha e coluna
+function pixelBoardSize(parent, width, height) {
+  const element = parent;
+  element.style.width = `${width * 42}px`;
+  element.style.height = `${height * 42}px`;
+}
+
+// Os pixels receberão uma função ao serem clicados
+function pixelChangeColor() {
+  const pixels = document.getElementsByClassName('pixel');
+  for (let index = 0; index < pixels.length; index += 1) {
+    pixels[index].onclick = () => {
+      pixels[index].style.backgroundColor = selectedColorPalette();
+    };
+  }
+}
+
 // Adiciona os pixels ao elemento parent com n linhas e n colunas
 function pixelsAdd(parent, lines, columns) {
-  // Altere o tamanho do meu pixel board em relação as minhas linhas e colunas
+  // Altere o tamanho do pixel board em relação as linhas e colunas
   pixelBoardSize(parent, columns, lines);
+
   for (let line = 0; line < lines; line += 1) {
     for (let column = 0; column < columns; column += 1) {
       pixelGenerator(parent);
     }
   }
-}
-
-// Altera o tamanho o pixel-board proporcionalmente ao tamanho de blocos por linha
-function pixelBoardSize(parent, width, height) {
-  parent.style.width = width * 42 + 'px';
-  parent.style.height = height * 42 + 'px';
+  // Atribua uma função a todos os pixels
+  pixelChangeColor();
 }
 
 const pixelBoard = document.getElementById('pixel-board');
@@ -50,31 +67,20 @@ const pixelBoard = document.getElementById('pixel-board');
 pixelsAdd(pixelBoard, 5, 5);
 
 // Quando uma cor da paleta for clicada ela será selecionada
-for (let color of colors) {
-  color.addEventListener('click', () => {
+for (let index = 0; index < colors.length; index += 1) {
+  colors[index].onclick = () => {
     const selectedColor = document.querySelector('.selected');
     selectedColor.classList.remove('selected');
 
-    color.classList.add('selected');
-
-    // Alterando a cor de aplicação (mainColor)
-    mainColor = color.style.backgroundColor;
-  });
-}
-
-// Coletando todos os pixels
-const pixels = document.getElementsByClassName('pixel');
-
-for (let pixel of pixels) {
-  pixel.addEventListener('click', () => {
-    pixel.style.backgroundColor = mainColor;
-  });
+    colors[index].classList.add('selected');
+  };
 }
 
 // Limpar todos os blocos de pintura
 function pixelClean() {
-  for (let pixel of pixels) {
-    pixel.style.backgroundColor = 'rgb(255 255 255)';
+  const pixels = document.getElementsByClassName('pixel');
+  for (let index = 0; index < pixels.length; index += 1) {
+    pixels[index].style.backgroundColor = 'rgb(255 255 255)';
   }
 }
 
@@ -87,8 +93,8 @@ const boardSize = document.getElementById('board-size');
 // Função para remover e atualizar todos os elementos do pixel board
 function pixelBoardCleaner() {
   const allPixels = document.querySelectorAll('.pixel');
-  for (let pixel of allPixels) {
-    pixelBoard.removeChild(pixel);
+  for (let index = 0; index < allPixels.length; index += 1) {
+    pixelBoard.removeChild(allPixels[index]);
   }
 }
 
@@ -97,19 +103,15 @@ generateBoard.addEventListener('click', () => {
     alert('Board inválido!');
     return;
   }
-
-  const inputValue = parseInt(boardSize.value);
+  const inputValue = parseInt(boardSize.value, 10);
   pixelBoardCleaner();
-
   if (inputValue < 5) {
     pixelsAdd(pixelBoard, 5, 5);
     return;
   }
-
   if (inputValue > 50) {
     pixelsAdd(pixelBoard, 50, 50);
     return;
   }
-
   pixelsAdd(pixelBoard, inputValue, inputValue);
 });
