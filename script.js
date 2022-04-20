@@ -70,3 +70,13 @@ for (let pixel of pixels) {
     pixel.style.backgroundColor = mainColor;
   });
 }
+
+// Limpar todos os blocos de pintura
+function pixelClean() {
+  for (let pixel of pixels) {
+    pixel.style.backgroundColor = 'rgb(255 255 255)';
+  }
+}
+
+const clearBoard = document.getElementById('clear-board');
+clearBoard.onclick = pixelClean;
