@@ -17,10 +17,6 @@
   cursor: pointer;
 }
 
-#color-palette .color:nth-child(1) {
-  background-color: rgb(0 0 0);
-}
-
 #pixel-board {
   background-color: purple;
   display: flex;

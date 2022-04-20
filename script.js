@@ -1,5 +1,8 @@
 const colors = document.getElementsByClassName('color');
 
+// Aplicando a cor principal da paleta de cores
+colors[0].style.backgroundColor = 'rgb(0 0 0)';
+
 let mainColor = colors[0].style.backgroundColor;
 
 // Gerador de cores aleatórias
@@ -53,5 +56,17 @@ for (let color of colors) {
     selectedColor.classList.remove('selected');
 
     color.classList.add('selected');
+
+    // Alterando a cor de aplicação (mainColor)
+    mainColor = color.style.backgroundColor;
+  });
+}
+
+// Coletando todos os pixels
+const pixels = document.getElementsByClassName('pixel');
+
+for (let pixel of pixels) {
+  pixel.addEventListener('click', () => {
+    pixel.style.backgroundColor = mainColor;
   });
 }
