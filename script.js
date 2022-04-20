@@ -44,10 +44,10 @@ function pixelBoardSize(parent, width, height) {
   parent.style.height = height * 42 + 'px';
 }
 
-const pixelsBoard = document.getElementById('pixel-board');
+const pixelBoard = document.getElementById('pixel-board');
 
 // Adicionando pixels ao pixel-board
-pixelsAdd(pixelsBoard, 5, 5);
+pixelsAdd(pixelBoard, 5, 5);
 
 // Quando uma cor da paleta for clicada ela será selecionada
 for (let color of colors) {
@@ -80,3 +80,26 @@ function pixelClean() {
 
 const clearBoard = document.getElementById('clear-board');
 clearBoard.onclick = pixelClean;
+
+const generateBoard = document.getElementById('generate-board');
+const boardSize = document.getElementById('board-size');
+
+// Função para remover e atualizar todos os elementos do pixel board
+function pixelBoardCleaner() {
+  const allPixels = document.querySelectorAll('.pixel');
+  for (let pixel of allPixels) {
+    pixelBoard.removeChild(pixel);
+  }
+}
+
+generateBoard.addEventListener('click', () => {
+  if (boardSize.value.length === 0) {
+    alert('Board inválido!');
+    return;
+  }
+  const inputValue = parseInt(boardSize.value);
+  pixelBoardCleaner();
+  if (inputValue > 0 && inputValue <= 50) {
+    pixelsAdd(pixelBoard, inputValue, inputValue);
+  }
+});
