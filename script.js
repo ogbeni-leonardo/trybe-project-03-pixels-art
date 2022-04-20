@@ -37,8 +37,8 @@ function pixelsAdd(parent, lines, columns) {
 
 // Altera o tamanho o pixel-board proporcionalmente ao tamanho de blocos por linha
 function pixelBoardSize(parent, width, height) {
-  parent.style.width = width * 30 + 'px';
-  parent.style.height = height * 30 + 'px';
+  parent.style.width = width * 42 + 'px';
+  parent.style.height = height * 42 + 'px';
 }
 
 const pixelsBoard = document.getElementById('pixel-board');

@@ -1,7 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 #color-palette {
@@ -28,8 +27,8 @@
 }
 
 .pixel {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   background-color: rgb(255 255 255);
-  border: 1px solid red;
+  border: 1px solid rgba(0 0 0);
 }
