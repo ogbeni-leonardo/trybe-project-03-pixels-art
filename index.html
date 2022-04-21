@@ -19,11 +19,18 @@
                 <div class="color"></div>
                 <div class="color"></div>
                 <div class="color"></div>
+                <div class="color multicolor">
+                    <ion-icon id="icon" name="color-palette-outline"></ion-icon>
+                    <input id="color-picker" type="color" title="Selecionador de cores">
+                </div>
             </section>
     
             <section id="user-adjust">
-                <input type="number" min="1" max="50" id="board-size">
-                <button id="generate-board">VQV</button>
+                <label for="board-size">Linhas: </label>
+                <input type="number" min="1" max="14" value="5" id="board-size-line">
+                <label for="board-size">Colunas: </label>
+                <input type="number" min="1" max="22" value="5" id="board-size-column">
+                <button id="generate-board">aplicar</button>
             </section>
     
             <button id="clear-board">Limpar</button>
@@ -33,5 +40,7 @@
         <section id="pixel-board"></section>
     </main>
     <script src="script.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

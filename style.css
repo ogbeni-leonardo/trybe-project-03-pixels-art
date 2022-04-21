@@ -59,11 +59,50 @@ body {
   border-radius: 50%;
 }
 
+.multicolor {
+  position: relative;
+}
+
+#icon {
+  position: absolute;
+  color: rgb(245 245 245);
+  font-size: 25px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#color-picker {
+  position: absolute;
+  border: 0;
+  inset: 0;
+  width: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  cursor: pointer;
+}
+
+#color-palette .selected {
+  border: 2px solid rgb(0 0 0);
+}
+
 #user-adjust {
   display: flex;
   justify-content: center;
+  align-items: stretch;
   gap: 5px;
   padding: 10px 0;
+}
+
+#user-adjust input {
+  text-align: center;
+  width: 50px;
+}
+
+label {
+  display: flex;
+  align-items: center;
 }
 
 #board-size {
@@ -89,10 +128,20 @@ button {
 }
 
 #pixel-board {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   border: 1px solid rgb(0 0 0);
   margin: 20px 20px 20px 0;
+  overflow: auto;
+}
+
+#pixel-board::-webkit-scrollbar {
+  width: 1px;
+}
+
+#pixel-board::-webkit-scrollbar-thumb {
+  background-color: var(--color-theme);
 }
 
 .pixel {

@@ -66,15 +66,35 @@ const pixelBoard = document.getElementById('pixel-board');
 // Adicionando pixels ao pixel-board
 pixelsAdd(pixelBoard, 5, 5);
 
+// Altera a classe de seleção dos elementos
+function selectedColor(element) {
+  const selected = document.querySelector('.selected');
+  selected.classList.remove('selected');
+
+  element.classList.add('selected');
+}
+
 // Quando uma cor da paleta for clicada ela será selecionada
 for (let index = 0; index < colors.length; index += 1) {
   colors[index].onclick = () => {
-    const selectedColor = document.querySelector('.selected');
-    selectedColor.classList.remove('selected');
-
-    colors[index].classList.add('selected');
+    selectedColor(colors[index]);
   };
 }
+
+const colorPicker = document.getElementById('color-picker');
+
+// Função que altera a cor de fundo da opção multicolor na paleta de cores
+function colorPickerChange(color) {
+  const extraColor = document.querySelector('.multicolor');
+  extraColor.style.backgroundColor = color;
+
+  // Ao mudar sua cor padrão faça dessa div a opção selecionada
+  selectedColor(extraColor);
+}
+
+colorPicker.addEventListener('change', (event) => {
+  colorPickerChange(event.target.value);
+});
 
 // Limpar todos os blocos de pintura
 function pixelClean() {
@@ -88,7 +108,8 @@ const clearBoard = document.getElementById('clear-board');
 clearBoard.onclick = pixelClean;
 
 const generateBoard = document.getElementById('generate-board');
-const boardSize = document.getElementById('board-size');
+const boardSizeLine = document.getElementById('board-size-line');
+const boardSizeColumn = document.getElementById('board-size-column');
 
 // Função para remover e atualizar todos os elementos do pixel board
 function pixelBoardCleaner() {
@@ -98,20 +119,30 @@ function pixelBoardCleaner() {
   }
 }
 
+// Validar as entradas de linhas e colunas
+function validInput(inputLine, inputColumn) {
+  let lineValue = inputLine;
+  let columnValue = inputColumn;
+
+  if (inputLine < 5) lineValue = 5;
+  else if (inputLine > 14) lineValue = 14;
+
+  if (inputColumn < 5) columnValue = 5;
+  else if (inputColumn > 22) columnValue = 22;
+
+  return [lineValue, columnValue];
+}
+
 generateBoard.addEventListener('click', () => {
-  if (boardSize.value.length === 0) {
+  if (boardSizeLine.value.length === 0 || boardSizeColumn.value.length === 0) {
     alert('Board inválido!');
     return;
   }
-  const inputValue = parseInt(boardSize.value, 10);
   pixelBoardCleaner();
-  if (inputValue < 5) {
-    pixelsAdd(pixelBoard, 5, 5);
-    return;
-  }
-  if (inputValue > 50) {
-    pixelsAdd(pixelBoard, 50, 50);
-    return;
-  }
-  pixelsAdd(pixelBoard, inputValue, inputValue);
+  const inputValues = validInput(
+    parseInt(boardSizeLine.value, 10),
+    parseInt(boardSizeColumn.value, 10),
+  );
+  console.log(inputValues);
+  pixelsAdd(pixelBoard, inputValues[0], inputValues[1]);
 });
