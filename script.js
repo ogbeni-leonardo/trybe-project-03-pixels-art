@@ -3,11 +3,6 @@ const colors = document.getElementsByClassName('color');
 // Aplicando a cor principal da paleta de cores
 colors[0].style.backgroundColor = 'rgb(0 0 0)';
 
-// Esta função retorna a cor selecionada da paleta de cores
-function selectedColorPalette() {
-  return document.querySelector('.selected').style.backgroundColor;
-}
-
 // Gerador de cores aleatórias
 function colorGenerator() {
   const redColor = parseInt(Math.random() * 255, 10);
@@ -22,6 +17,26 @@ for (let index = 1; index < colors.length; index += 1) {
   colors[index].style.backgroundColor = colorGenerator();
 }
 
+// Cria elementos option para o select
+function createOptions(parentElement, size) {
+  for (let counter = 1; counter <= size; counter += 1) {
+    const optionElement = document.createElement('option');
+    optionElement.value = counter;
+    optionElement.innerText = counter.toString().padStart(2, '0');
+
+    parentElement.appendChild(optionElement);
+  }
+}
+
+// Options para linhas
+
+const boardSizeLine = document.getElementById('board-size-line');
+createOptions(boardSizeLine, 14);
+
+// Options para colunas
+const boardSizeColumn = document.getElementById('board-size-column');
+createOptions(boardSizeColumn, 23);
+
 // Criador de pixels
 function pixelGenerator(parent) {
   const newPixel = document.createElement('div');
@@ -35,6 +50,11 @@ function pixelBoardSize(parent, width, height) {
   const element = parent;
   element.style.width = `${width * 42}px`;
   element.style.height = `${height * 42}px`;
+}
+
+// Esta função retorna a cor selecionada da paleta de cores
+function selectedColorPalette() {
+  return document.querySelector('.selected').style.backgroundColor;
 }
 
 // Os pixels receberão uma função ao serem clicados
@@ -67,7 +87,7 @@ const pixelBoard = document.getElementById('pixel-board');
 pixelsAdd(pixelBoard, 5, 5);
 
 // Altera a classe de seleção dos elementos
-function selectedColor(element) {
+function changeClassOfSelectedColor(element) {
   const selected = document.querySelector('.selected');
   selected.classList.remove('selected');
 
@@ -77,11 +97,9 @@ function selectedColor(element) {
 // Quando uma cor da paleta for clicada ela será selecionada
 for (let index = 0; index < colors.length; index += 1) {
   colors[index].onclick = () => {
-    selectedColor(colors[index]);
+    changeClassOfSelectedColor(colors[index]);
   };
 }
-
-const colorPicker = document.getElementById('color-picker');
 
 // Função que altera a cor de fundo da opção multicolor na paleta de cores
 function colorPickerChange(color) {
@@ -89,9 +107,10 @@ function colorPickerChange(color) {
   extraColor.style.backgroundColor = color;
 
   // Ao mudar sua cor padrão faça dessa div a opção selecionada
-  selectedColor(extraColor);
+  changeClassOfSelectedColor(extraColor);
 }
 
+const colorPicker = document.getElementById('color-picker');
 colorPicker.addEventListener('change', (event) => {
   colorPickerChange(event.target.value);
 });
@@ -108,8 +127,6 @@ const clearBoard = document.getElementById('clear-board');
 clearBoard.onclick = pixelClean;
 
 const generateBoard = document.getElementById('generate-board');
-const boardSizeLine = document.getElementById('board-size-line');
-const boardSizeColumn = document.getElementById('board-size-column');
 
 // Função para remover e atualizar todos os elementos do pixel board
 function pixelBoardCleaner() {
@@ -119,30 +136,7 @@ function pixelBoardCleaner() {
   }
 }
 
-// Validar as entradas de linhas e colunas
-function validInput(inputLine, inputColumn) {
-  let lineValue = inputLine;
-  let columnValue = inputColumn;
-
-  if (inputLine < 5) lineValue = 5;
-  else if (inputLine > 14) lineValue = 14;
-
-  if (inputColumn < 5) columnValue = 5;
-  else if (inputColumn > 22) columnValue = 22;
-
-  return [lineValue, columnValue];
-}
-
 generateBoard.addEventListener('click', () => {
-  if (boardSizeLine.value.length === 0 || boardSizeColumn.value.length === 0) {
-    alert('Board inválido!');
-    return;
-  }
   pixelBoardCleaner();
-  const inputValues = validInput(
-    parseInt(boardSizeLine.value, 10),
-    parseInt(boardSizeColumn.value, 10),
-  );
-  console.log(inputValues);
-  pixelsAdd(pixelBoard, inputValues[0], inputValues[1]);
+  pixelsAdd(pixelBoard, boardSizeLine.value, boardSizeColumn.value);
 });
